@@ -1,0 +1,7 @@
+name: AtlasUtils
+version: '${project.version}'
+main: net.atlaspvp.atlasutils.AtlasUtils
+api-version: 1.17
+authors: [ jesus_is_hot ]
+description: Plugin with helpful tools for factions, made to be used beside atlas spigot.
+website: atlaspvp.net
