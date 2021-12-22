@@ -5,3 +5,23 @@ api-version: 1.17
 authors: [ jesus_is_hot ]
 description: Plugin with helpful tools for factions, made to be used beside atlas spigot.
 website: atlaspvp.net
+
+depend:
+  [ ProtocolLib ]
+
+commands:
+  fps:
+    decription: Toggle TNT and FallingBlock Visibility
+    usage: /<command>
+    aliases: [ fpstoggle, togglefps ]
+    permission: atlasutils.fps
+  tnttoggle:
+    decription: Toggle TNT Visibility
+    usage: /<command>
+    aliases: [ toggletnt ]
+    permission: atlasutils.tnttoggle
+  sandtoggle:
+    decription: Toggle FallingBlock Visibility
+    usage: /<command>
+    aliases: [ togglesand, fallingtoggle, fallingblocktoggle, togglefalling, togglefallingblock ]
+    permission: atlasutils.sandtoggle
