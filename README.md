@@ -1,14 +1,14 @@
 # AtlasUtils
 Plugin with helpful tools for factions, made to be used beside atlas spigot.
 
-#Features:
-##Config:
+# Features:
+## Config:
 Found in your plugins folder at AtlasUtils/config.yml
 
 Command | Permission
 - /reload (atlasutils.reload)
 
-##FPS:
+## FPS:
 Per Player toggle TNT and FallingBlock Visibility for TNT Cannons.
 
 Command | Permission
@@ -18,5 +18,5 @@ Command | Permission
 - /explosiontoggle (atlasutils.explosiontoggle)
 - /maxfps (atlasutils.maxfps)
 
-#Dependencies:
+# Dependencies:
 ProtocolLib: https://www.spigotmc.org/resources/protocollib.1997/
