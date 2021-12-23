@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -45,7 +46,11 @@ public class FPS implements CommandExecutor {
 
     private ItemStack getGuiItem() {
         try {
-            return new ItemStack(Material.valueOf(cfg.getString(itempath).toUpperCase()));
+            ItemStack ri =new ItemStack(Material.valueOf(cfg.getString(itempath).toUpperCase()));
+            ItemMeta rm = ri.getItemMeta();
+            rm.setDisplayName(" ");
+            ri.setItemMeta(rm);
+            return ri;
         } catch(Exception e) {
             return new ItemStack(Material.BARRIER);
         }
@@ -64,20 +69,16 @@ public class FPS implements CommandExecutor {
     }
 
     private void initBlockMeta() {
-        ItemMeta fm = this.getGuiItem().getItemMeta();
-        fm.setDisplayName(" ");
-        this.getGuiItem().setItemMeta(fm);
-
         ItemMeta tm = this.tntitem.getItemMeta();
-        fm.setDisplayName(nc + " TNT Visibility");
+        tm.setDisplayName(nc + "TNT Visibility");
         this.tntitem.setItemMeta(tm);
 
         ItemMeta sm = this.sanditem.getItemMeta();
-        fm.setDisplayName(nc + "Falling Block Visibility");
+        sm.setDisplayName(nc + "Falling Block Visibility");
         this.sanditem.setItemMeta(sm);
 
         ItemMeta em = this.exitem.getItemMeta();
-        fm.setDisplayName(nc + "Explosion Visibility");
+        em.setDisplayName(nc + "Explosion Visibility");
         this.exitem.setItemMeta(em);
     }
 
