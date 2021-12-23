@@ -9,6 +9,8 @@ Command | Permission
 - /fps (atlasutils.fps)
 - /tnttoggle (atlasutils.tnttoggle)
 - /sandtoggle (atlasutils.sandtoggle)
+- /explosiontoggle (atlasutils.explosiontoggle)
+- /maxfps (atlasutils.maxfps)
 
 #Dependencies:
 ProtocolLib: https://www.spigotmc.org/resources/protocollib.1997/

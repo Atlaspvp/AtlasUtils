@@ -11,9 +11,9 @@ depend:
 
 commands:
   fps:
-    decription: Toggle TNT and FallingBlock Visibility
+    decription: Open the FPS GUI
     usage: /<command>
-    aliases: [ fpstoggle, togglefps ]
+    aliases: [ fpssettings, fpsgui ]
     permission: atlasutils.fps
   tnttoggle:
     decription: Toggle TNT Visibility
@@ -25,3 +25,13 @@ commands:
     usage: /<command>
     aliases: [ togglesand, fallingtoggle, fallingblocktoggle, togglefalling, togglefallingblock ]
     permission: atlasutils.sandtoggle
+  explosiontoggle:
+    decription: Toggle Explosion Visibility
+    usage: /<command>
+    aliases: [ particletoggle, etoggle, explosiont, particlet, ptoggle, toggleparticles, toggleexplosions ]
+    permission: atlasutils.explosiontoggle
+  maxfps:
+    decription: Toggle All FPS Settings
+    usage: /<command>
+    aliases: [ toggleall, alltoggle, fpsmax ]
+    permission: atlasutils.maxfps

@@ -13,30 +13,31 @@ import  java.util.Set;
 
 import java.util.UUID;
 
-public class FPSAdapter {
-    private FPS fps;
-    private PacketAdapter adapter;
+public class FPSAdapter extends  PacketAdapter {
+    private final FPS fps;
 
-    public FPSAdapter(Plugin plugin, FPS fps) {
+    public FPSAdapter(Plugin p, FPS fps) {
+        super(p, ListenerPriority.NORMAL, PacketType.Play.Server.SPAWN_ENTITY, PacketType.Play.Server.EXPLOSION);
         this.fps = fps;
-
-        this.adapter = new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Server.SPAWN_ENTITY) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
-                PacketContainer packet = event.getPacket();
-                UUID uuid = event.getPlayer().getUniqueId();
-                EntityType e = packet.getEntityTypeModifier().read(0);
-
-                if (fps.tnt_status.get(uuid) && e == EntityType.PRIMED_TNT) {
-                    event.setCancelled(true);
-                } else if (fps.sand_status.get(uuid) && e == EntityType.FALLING_BLOCK) {
-                    event.setCancelled(true);
-                }
-            }
-        };
     }
 
-    public PacketAdapter getAdapter() {
-        return this.adapter;
+    @Override
+    public void onPacketSending(PacketEvent event) {
+        PacketContainer packet = event.getPacket();
+        UUID uuid = event.getPlayer().getUniqueId();
+        if (packet.getType() == PacketType.Play.Server.SPAWN_ENTITY) {
+            EntityType e = packet.getEntityTypeModifier().read(0);
+
+            if (fps.tnt_status.getOrDefault(uuid, false) && e == EntityType.PRIMED_TNT) {
+                event.setCancelled(true);
+            } else if (fps.sand_status.getOrDefault(uuid, false) && e == EntityType.FALLING_BLOCK) {
+                event.setCancelled(true);
+            }
+        }
+        else if (packet.getType() == PacketType.Play.Server.EXPLOSION) {
+            if (fps.explosion_status.getOrDefault(uuid, false)) {
+                event.setCancelled(true);
+            }
+        }
     }
 }
