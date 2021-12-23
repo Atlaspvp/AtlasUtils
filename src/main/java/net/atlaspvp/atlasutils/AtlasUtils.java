@@ -2,20 +2,24 @@ package net.atlaspvp.atlasutils;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketListener;
 import net.atlaspvp.atlasutils.features.FPS;
 import net.atlaspvp.atlasutils.listeners.FPSAdapter;
 import net.atlaspvp.atlasutils.listeners.InventoryClickListener;
-import org.bukkit.event.Event;
-import org.bukkit.event.inventory.InventoryEvent;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.InputStreamReader;
+import java.util.Map;
+import java.util.Set;
 
 public final class AtlasUtils extends JavaPlugin {
     private ProtocolManager protocolManager;
 
     @Override
     public void onEnable() {
-        FPS fps = new FPS();
+        Config.initConfig(this);
+
+        FPS fps = new FPS(this.getConfig());
         FPSAdapter adapter = new FPSAdapter(this, fps);
         InventoryClickListener clickgui = new InventoryClickListener(fps);
 
@@ -29,6 +33,8 @@ public final class AtlasUtils extends JavaPlugin {
         getCommand("sandtoggle").setExecutor(fps);
         getCommand("explosiontoggle").setExecutor(fps);
         getCommand("maxfps").setExecutor(fps);
+
+        getCommand("reload").setExecutor(new Config(this));
     }
 
     @Override

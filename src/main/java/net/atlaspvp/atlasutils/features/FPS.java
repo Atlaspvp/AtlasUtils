@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -20,21 +21,42 @@ public class FPS implements CommandExecutor {
     public final HashMap<UUID, Boolean> sand_status;
     public final HashMap<UUID, Boolean> explosion_status;
 
-    private static final ItemStack guifill = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
     public static final ItemStack tntitem = new ItemStack(Material.TNT);
     public static final ItemStack sanditem = new ItemStack(Material.SAND);
     public static final ItemStack exitem = new ItemStack(Material.GUNPOWDER);
     private static final String nc = "" + ChatColor.RESET + ChatColor.RED;
 
-    private static final String on = "" + ChatColor.RESET + ChatColor.GREEN + "on" + ChatColor.RESET + ".";
-    private static final String off = "" + ChatColor.RESET + ChatColor.RED+ "off" + ChatColor.RESET + ".";
+    private static final String on = ChatColor.GREEN + "on";
+    private static final String off = ChatColor.RED+ "off";
 
-    public FPS() {
+    private final Configuration cfg;
+    private static final String msgpath = "fps.message";
+    private static final String itempath = "fps.menu-bg";
+
+    public FPS(Configuration cfg) {
         this.tnt_status = new HashMap<>();
         this.sand_status = new HashMap<>();
         this.explosion_status = new HashMap<>();
 
+        this.cfg = cfg;
+
         this.initBlockMeta();
+    }
+
+    private ItemStack getGuiItem() {
+        try {
+            return new ItemStack(Material.valueOf(cfg.getString(itempath).toUpperCase()));
+        } catch(Exception e) {
+            return new ItemStack(Material.BARRIER);
+        }
+    }
+
+    private String getMSG(String w, Boolean s) {
+        String r = cfg.getString(msgpath);
+        r = r.replace('&', '§');
+        r = r.replace("%option%", w);
+        r = r.replace("%status%", (s ? off : on));
+        return r;
     }
 
     public static boolean ValidateInv(Inventory inv) {
@@ -42,27 +64,27 @@ public class FPS implements CommandExecutor {
     }
 
     private void initBlockMeta() {
-        ItemMeta fm = this.guifill.getItemMeta();
+        ItemMeta fm = this.getGuiItem().getItemMeta();
         fm.setDisplayName(" ");
-        this.guifill.setItemMeta(fm);
+        this.getGuiItem().setItemMeta(fm);
 
-        ItemMeta tm = this.guifill.getItemMeta();
+        ItemMeta tm = this.tntitem.getItemMeta();
         fm.setDisplayName(nc + " TNT Visibility");
-        this.guifill.setItemMeta(tm);
+        this.tntitem.setItemMeta(tm);
 
-        ItemMeta sm = this.guifill.getItemMeta();
+        ItemMeta sm = this.sanditem.getItemMeta();
         fm.setDisplayName(nc + "Falling Block Visibility");
-        this.guifill.setItemMeta(sm);
+        this.sanditem.setItemMeta(sm);
 
-        ItemMeta em = this.guifill.getItemMeta();
+        ItemMeta em = this.exitem.getItemMeta();
         fm.setDisplayName(nc + "Explosion Visibility");
-        this.guifill.setItemMeta(em);
+        this.exitem.setItemMeta(em);
     }
 
     private Inventory GetGui(Player p) {
         Inventory i = Bukkit.createInventory(p, 27, "FPS Settings");
         ItemStack[] f = new ItemStack[27];
-        Arrays.fill(f, guifill);
+        Arrays.fill(f, getGuiItem());
         i.setContents(f);
         i.setItem(11, tntitem);
         i.setItem(13, sanditem);
@@ -95,7 +117,7 @@ public class FPS implements CommandExecutor {
         else if (cmd.getName().equalsIgnoreCase("tnttoggle")) {
             Boolean ns = !tnt_status.get(uuid);
             tnt_status.replace(uuid, ns);
-            author.sendMessage("§a[+] §7Turned TNT " + (ns ? off : on));
+            author.sendMessage(getMSG("TNT", ns));
         }
 
         else if (cmd.getName().equalsIgnoreCase("maxfps")) {
@@ -103,21 +125,21 @@ public class FPS implements CommandExecutor {
             tnt_status.replace(uuid, ns);
             sand_status.replace(uuid, ns);
             explosion_status.replace(uuid, ns);
-            author.sendMessage("§a[+] §7Turned ALL " + (ns ? off : on));
+            author.sendMessage(getMSG("ALL", ns));
         }
 
         // sandtoggle command (toggle falling block)
         else if (cmd.getName().equalsIgnoreCase("sandtoggle")) {
             Boolean ns = !sand_status.get(uuid);
             sand_status.replace(uuid, ns);
-            author.sendMessage("§a[+] §7Turned Falling Blocks " + (ns ? off : on));
+            author.sendMessage(getMSG("Falling Blocks", ns));
         }
 
         // explosiontoggle command (toggle explosions)
         else if (cmd.getName().equalsIgnoreCase("explosiontoggle")) {
             Boolean ns = !explosion_status.get(uuid);
             explosion_status.replace(uuid, ns);
-            author.sendMessage("§a[+] §7Turned Explosions " + (ns ? off : on));
+            author.sendMessage(getMSG("Explosions", ns));
         }
 
         return true;

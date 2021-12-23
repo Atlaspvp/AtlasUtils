@@ -35,3 +35,9 @@ commands:
     usage: /<command>
     aliases: [ toggleall, alltoggle, fpsmax ]
     permission: atlasutils.maxfps
+
+  reload:
+    decription: Reload AtlasUtils Config
+    usage: /<command>
+    aliases: [ aureload, reloadau, atlasutilsreload, reloadatlasutils ]
+    permission: atlasutils.reload
