@@ -6,7 +6,7 @@
 
     <groupId>net.atlaspvp</groupId>
     <artifactId>AtlasUtils</artifactId>
-    <version>0.3</version>
+    <version>0.3.1</version>
     <packaging>jar</packaging>
 
     <name>AtlasUtils</name>
