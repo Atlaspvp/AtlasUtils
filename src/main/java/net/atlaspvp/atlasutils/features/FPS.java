@@ -1,5 +1,6 @@
 package net.atlaspvp.atlasutils.features;
 
+import net.atlaspvp.atlasutils.extras.FakePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -10,6 +11,7 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -34,6 +36,8 @@ public class FPS implements CommandExecutor {
     private static final String msgpath = "fps.message";
     private static final String itempath = "fps.menu-bg";
 
+    private static Inventory GUI;
+
     public FPS(Configuration cfg) {
         this.tnt_status = new HashMap<>();
         this.sand_status = new HashMap<>();
@@ -42,6 +46,8 @@ public class FPS implements CommandExecutor {
         this.cfg = cfg;
 
         this.initBlockMeta();
+
+        this.GUI = GetGui(new FakePlayer());
     }
 
     private ItemStack getGuiItem() {
@@ -64,8 +70,8 @@ public class FPS implements CommandExecutor {
         return r;
     }
 
-    public static boolean ValidateInv(Inventory inv) {
-        return (inv.contains(tntitem) && inv.contains(sanditem) && inv.contains(exitem));
+    public boolean ValidateInv(Inventory inv) {
+        return this.GUI == inv;
     }
 
     private void initBlockMeta() {
@@ -111,7 +117,7 @@ public class FPS implements CommandExecutor {
         }
 
         if (cmd.getName().equalsIgnoreCase("fps")) {
-            player.openInventory(this.GetGui(player));
+            player.openInventory(this.GUI);
         }
 
         // tnt command (toggle tnt)

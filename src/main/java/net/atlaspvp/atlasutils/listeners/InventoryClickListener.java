@@ -19,7 +19,7 @@ public class InventoryClickListener implements Listener {
 
     @EventHandler
     private void inventoryClickListener(InventoryClickEvent event) {
-        if (event.getClickedInventory() != null && FPS.ValidateInv(event.getClickedInventory())) {
+        if (event.getClickedInventory() != null && fps.ValidateInv(event.getClickedInventory())) {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
             UUID uuid = player.getUniqueId();
