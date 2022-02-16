@@ -1,6 +1,5 @@
 package net.atlaspvp.atlasutils.features;
 
-import net.atlaspvp.atlasutils.extras.FakePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -8,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -46,8 +46,7 @@ public class FPS implements CommandExecutor {
         this.cfg = cfg;
 
         this.initBlockMeta();
-
-        this.GUI = GetGui(new FakePlayer());
+        this.GUI = GetGui();
     }
 
     private ItemStack getGuiItem() {
@@ -88,8 +87,8 @@ public class FPS implements CommandExecutor {
         this.exitem.setItemMeta(em);
     }
 
-    private Inventory GetGui(Player p) {
-        Inventory i = Bukkit.createInventory(p, 27, "FPS Settings");
+    private Inventory GetGui() {
+        Inventory i = Bukkit.createInventory(null, 27, "FPS Settings");
         ItemStack[] f = new ItemStack[27];
         Arrays.fill(f, getGuiItem());
         i.setContents(f);
